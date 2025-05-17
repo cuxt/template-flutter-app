@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 
-import '../domain/increment_use_case.dart';
+import '../../domain/increment_use_case.dart';
 
 part 'demo_viewmodel.g.dart';
 

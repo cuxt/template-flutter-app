@@ -3,23 +3,14 @@ import 'package:flutter/material.dart';
 
 @immutable
 class CustomColors extends ThemeExtension<CustomColors> {
-  const CustomColors({
-    required this.red,
-    required this.green,
-  });
+  const CustomColors({required this.red, required this.green});
 
   final Color? red;
   final Color? green;
 
   @override
-  CustomColors copyWith({
-    Color? red,
-    Color? green,
-  }) {
-    return CustomColors(
-      red: red ?? this.red,
-      green: green ?? this.green,
-    );
+  CustomColors copyWith({Color? red, Color? green}) {
+    return CustomColors(red: red ?? this.red, green: green ?? this.green);
   }
 
   @override

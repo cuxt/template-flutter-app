@@ -5,10 +5,5 @@ import 'app_route.gr.dart';
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter {
   @override
-  final List<AutoRoute> routes = [
-    AutoRoute(
-      page: MainRoute.page,
-      path: '/',
-    ),
-  ];
+  final List<AutoRoute> routes = [AutoRoute(page: MainRoute.page, path: '/')];
 }

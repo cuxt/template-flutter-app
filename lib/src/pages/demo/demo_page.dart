@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:template_flutter/src/core/di/di.dart';
-import 'package:template_flutter/src/presentation/demo_viewmodel.dart';
+import 'package:template_flutter/src/pages/demo/demo_viewmodel.dart';
 
 class DemoPage extends StatelessWidget {
   DemoPage({super.key});
@@ -11,9 +11,7 @@ class DemoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Main Page'),
-      ),
+      appBar: AppBar(title: const Text('Main Page')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -39,19 +37,18 @@ class DemoPage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text(
-                  'You have pushed the button this many times:',
+                const Text('You have pushed the button this many times:'),
+                Observer(
+                  builder: (context) {
+                    return Text(
+                      '${viewmodel.count}',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    );
+                  },
                 ),
-                Observer(builder: (context) {
-                  return Text(
-                    '${viewmodel.count}',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  );
-                }),
               ],
             ),
           ),
-          Container(height: 64),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -69,11 +66,7 @@ class SchemeColorBox extends StatelessWidget {
   final String label;
   final Color color;
 
-  const SchemeColorBox({
-    super.key,
-    required this.label,
-    required this.color,
-  });
+  const SchemeColorBox({super.key, required this.label, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +76,7 @@ class SchemeColorBox extends StatelessWidget {
         child: Column(
           children: [
             Text(label),
-            Container(
-              color: color,
-              height: 40,
-              width: 40,
-            ),
+            Container(color: color, height: 40, width: 40),
           ],
         ),
       ),

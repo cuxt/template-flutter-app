@@ -74,11 +74,9 @@ const ColorScheme lightTheme = ColorScheme.light(
   onError: whiteOnError,
   errorContainer: whiteErrorContainer,
   onErrorContainer: whiteOnErrorContainer,
-  background: whiteBackground,
-  onBackground: whiteOnBackground,
   surface: whiteSurface,
   onSurface: whiteOnSurface,
-  surfaceVariant: whiteSurfaceVariant,
+  surfaceContainerHighest: whiteSurfaceVariant,
   onSurfaceVariant: whiteOnSurfaceVariant,
   outline: whiteOutline,
   inverseSurface: whiteInverseSurface,
@@ -101,11 +99,9 @@ const ColorScheme darkTheme = ColorScheme.dark(
   onError: darkOnError,
   errorContainer: darkErrorContainer,
   onErrorContainer: darkOnErrorContainer,
-  background: darkBackground,
-  onBackground: darkOnBackground,
   surface: darkSurface,
   onSurface: darkOnSurface,
-  surfaceVariant: darkSurfaceVariant,
+  surfaceContainerHighest: darkSurfaceVariant,
   onSurfaceVariant: darkOnSurfaceVariant,
   outline: darkOutline,
   inverseSurface: darkInverseSurface,
@@ -187,11 +183,9 @@ extension CorePaletteMapping on CorePalette {
       onError: Color(error.get(100)),
       errorContainer: Color(error.get(90)),
       onErrorContainer: Color(error.get(10)),
-      background: Color(neutral.get(99)),
-      onBackground: Color(neutral.get(10)),
       surface: Color(neutral.get(99)),
       onSurface: Color(neutral.get(10)),
-      surfaceVariant: Color(neutralVariant.get(90)),
+      surfaceContainerHighest: Color(neutralVariant.get(90)),
       onSurfaceVariant: Color(neutralVariant.get(30)),
       outline: Color(neutralVariant.get(50)),
       shadow: Color(neutral.get(0)),
@@ -219,11 +213,9 @@ extension CorePaletteMapping on CorePalette {
       onError: Color(error.get(20)),
       errorContainer: Color(error.get(30)),
       onErrorContainer: Color(error.get(80)),
-      background: Color(neutral.get(10)),
-      onBackground: Color(neutral.get(90)),
       surface: Color(neutral.get(10)),
       onSurface: Color(neutral.get(90)),
-      surfaceVariant: Color(neutralVariant.get(30)),
+      surfaceContainerHighest: Color(neutralVariant.get(30)),
       onSurfaceVariant: Color(neutralVariant.get(80)),
       outline: Color(neutralVariant.get(60)),
       shadow: Color(neutral.get(0)),
@@ -240,13 +232,8 @@ ElevatedButtonThemeData elevatedButtonTheme(
 ) {
   return ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 12,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(32.0),
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.0)),
       textStyle: GoogleFonts.outfit(
         textStyle: TextStyle(
           fontWeight: FontWeight.w600,
@@ -259,9 +246,7 @@ ElevatedButtonThemeData elevatedButtonTheme(
 
 InputDecorationTheme get inputDecorationTheme {
   return InputDecorationTheme(
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12.0),
-    ),
+    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
     filled: true,
   );
 }
@@ -270,8 +255,8 @@ NavigationBarThemeData navigationBarThemeData(ColorScheme colorScheme) {
   return NavigationBarThemeData(
     backgroundColor: colorScheme.surface,
     labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-    labelTextStyle: MaterialStateProperty.resolveWith((states) {
-      if (states.contains(MaterialState.selected)) {
+    labelTextStyle: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
         return GoogleFonts.outfit().copyWith(fontWeight: FontWeight.bold);
       } else {
         return GoogleFonts.outfit();
@@ -308,22 +293,16 @@ AppBarTheme appBarThemeDark(ColorScheme colorScheme) {
 DialogTheme get dialogTheme {
   return DialogTheme(
     titleTextStyle: GoogleFonts.manrope(
-      textStyle: const TextStyle(
-        fontWeight: FontWeight.bold,
-      ),
+      textStyle: const TextStyle(fontWeight: FontWeight.bold),
     ),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(24),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
   );
 }
 
 TimePickerThemeData get timePickerTheme {
   return TimePickerThemeData(
     helpTextStyle: GoogleFonts.manrope(
-      textStyle: const TextStyle(
-        fontWeight: FontWeight.bold,
-      ),
+      textStyle: const TextStyle(fontWeight: FontWeight.bold),
     ),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
     hourMinuteShape: const CircleBorder(),
@@ -335,8 +314,12 @@ extension ColorExtension on Color {
   Color darken([int percent = 40]) {
     assert(1 <= percent && percent <= 100);
     final value = 1 - percent / 100;
-    return Color.fromARGB(alpha, (red * value).round(), (green * value).round(),
-        (blue * value).round());
+    return Color.fromARGB(
+      a.toInt(),
+      (r * value).round(),
+      (g * value).round(),
+      (b * value).round(),
+    );
   }
 }
 
@@ -350,57 +333,35 @@ CustomColors darkCustomColor = CustomColors(
 );
 
 ThemeData getLightTheme(ColorScheme lightColorScheme, BuildContext context) {
-  return ThemeData.from(
-    colorScheme: lightColorScheme,
-  ).copyWith(
+  return ThemeData.from(colorScheme: lightColorScheme).copyWith(
     colorScheme: lightColorScheme,
     dialogTheme: dialogTheme,
     timePickerTheme: timePickerTheme,
     appBarTheme: appBarThemeLight(lightColorScheme),
-    useMaterial3: true,
-    textTheme: GoogleFonts.outfitTextTheme(
-      ThemeData.light().textTheme,
-    ),
-    scaffoldBackgroundColor: lightColorScheme.background,
-    dialogBackgroundColor: lightColorScheme.background,
+    textTheme: GoogleFonts.outfitTextTheme(ThemeData.light().textTheme),
+    scaffoldBackgroundColor: lightColorScheme.surface,
     navigationBarTheme: navigationBarThemeData(lightColorScheme),
     applyElevationOverlayColor: true,
     inputDecorationTheme: inputDecorationTheme,
-    elevatedButtonTheme: elevatedButtonTheme(
-      context,
-      lightColorScheme,
-    ),
+    elevatedButtonTheme: elevatedButtonTheme(context, lightColorScheme),
     extensions: [lightCustomColor],
-    dividerTheme: DividerThemeData(
-      color: ThemeData.light().dividerColor,
-    ),
+    dividerTheme: DividerThemeData(color: ThemeData.light().dividerColor),
   );
 }
 
 ThemeData getDarkTheme(ColorScheme darkColorScheme, BuildContext context) {
-  return ThemeData.from(
-    colorScheme: darkColorScheme,
-  ).copyWith(
+  return ThemeData.from(colorScheme: darkColorScheme).copyWith(
     colorScheme: darkColorScheme,
     dialogTheme: dialogTheme,
     timePickerTheme: timePickerTheme,
     appBarTheme: appBarThemeDark(darkColorScheme),
-    useMaterial3: true,
-    textTheme: GoogleFonts.outfitTextTheme(
-      ThemeData.dark().textTheme,
-    ),
-    scaffoldBackgroundColor: darkColorScheme.background,
-    dialogBackgroundColor: darkColorScheme.background,
+    textTheme: GoogleFonts.outfitTextTheme(ThemeData.dark().textTheme),
+    scaffoldBackgroundColor: darkColorScheme.surface,
     navigationBarTheme: navigationBarThemeData(darkColorScheme),
     applyElevationOverlayColor: true,
     inputDecorationTheme: inputDecorationTheme,
-    elevatedButtonTheme: elevatedButtonTheme(
-      context,
-      darkColorScheme,
-    ),
+    elevatedButtonTheme: elevatedButtonTheme(context, darkColorScheme),
     extensions: [darkCustomColor],
-    dividerTheme: DividerThemeData(
-      color: ThemeData.dark().dividerColor,
-    ),
+    dividerTheme: DividerThemeData(color: ThemeData.dark().dividerColor),
   );
 }

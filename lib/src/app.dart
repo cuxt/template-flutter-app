@@ -21,9 +21,7 @@ class App extends StatelessWidget {
           lightColorScheme = lightDynamic.harmonized();
           darkColorScheme = darkDynamic.harmonized();
         } else {
-          lightColorScheme = ColorScheme.fromSeed(
-            seedColor: primaryColor,
-          );
+          lightColorScheme = ColorScheme.fromSeed(seedColor: primaryColor);
           darkColorScheme = ColorScheme.fromSeed(
             seedColor: primaryColor,
             brightness: Brightness.dark,
